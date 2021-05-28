@@ -11,7 +11,7 @@ pipeline {
                 // Get code from GitHub repository
                 git(
                     url: 'https://github.com/abelasuvalenteen/fibonacci.git',
-                    branch: '*/main'
+                    branch: 'main'
                     )
 
                 // To run Maven on a Windows agent, use
