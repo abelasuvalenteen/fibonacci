@@ -28,6 +28,17 @@ def callDockerBuild () {
          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
              // docker hub login
              bat "docker login -u $USERNAME -p $PASSWORD"
+
+             try {
+                // Kill the container if any running
+                bat "docker container kill fibonacci"
+                // Remove the container
+                bat "docker container rm fibonacci"
+             } catch (Exception e) {
+                 // If no container running continue
+                 echo "Do Nothing"
+             }
+             
              // docker build and tag image
              bat "docker build -t ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
              // docker push tagged image
@@ -35,7 +46,7 @@ def callDockerBuild () {
              // docker list images
              bat "docker images"
              // docker run
-             bat "docker run -t -p8085:8085 ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+             bat "docker run --name fibonacci -t -p8085:8085 ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
          }
      }
 }
