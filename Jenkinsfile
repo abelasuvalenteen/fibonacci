@@ -48,7 +48,7 @@ pipeline {
     }
 
     parameters {
-        string(defaultValue: "docker", description: "Enter how to build local or docker", name: "buildType")
+        string(defaultValue: "docker", description: "Input how to build: local or docker", name: "buildType")
     }
 
     options { skipDefaultCheckout() }
