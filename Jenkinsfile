@@ -40,7 +40,7 @@ def callDockerBuild () {
              }
 
              // docker build and tag image
-             bat "docker build --no-cache -rm=true -t ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
+             bat "docker build --no-cache -t ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
              // docker push tagged image
              bat "docker push ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
              // docker list images
