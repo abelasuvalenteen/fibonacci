@@ -13,6 +13,5 @@ ENV artifact fibonacci-1.0.0-SNAPSHOT.jar
 WORKDIR /app
 COPY --from=build /app/config.yml /app
 COPY --from=build /app/target/${artifact} /app
-EXPOSE 8085
 ENTRYPOINT ["sh", "-c"]
 CMD ["java -jar ${artifact} server config.yml"]
