@@ -38,7 +38,7 @@ def callDockerBuild () {
                  // If no container running continue
                  echo "Do Nothing"
              }
-             
+
              // docker build and tag image
              bat "docker build -t ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
              // docker push tagged image
