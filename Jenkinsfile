@@ -50,11 +50,13 @@ pipeline {
                          )
                          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                              // docker hub login
-                             bat "docker login -u $USERNAME -p $PASSWORD ${DOCKER_HUB_REPO}"
+                             bat "docker login -u $USERNAME -p $PASSWORD"
                              // docker build and tag image
-                             bat "docker build -t ${DOCKER_HUB_REPO}/${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
+                             bat "docker build -t ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
                              // docker push tagged image
-                             bat "docker push ${DOCKER_HUB_REPO}/${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+                             bat "docker push ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+                             // docker list images
+                             bat "docker images"
                              // docker run
                              bat "docker run -ti -p8085:8085 ${IMAGE_NAME}:${VERSION}"
                          }
