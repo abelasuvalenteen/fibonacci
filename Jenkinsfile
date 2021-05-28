@@ -5,9 +5,20 @@ pipeline {
       }
     }
 
+    options { skipDefaultCheckout() }
+
+    environment {
+    DOCKER_HUB_REPO = "https://hub.docker.com/repository/docker"
+    DOCKER_HUB_NAMESPACE = "abelasuvalenteen"
+    IMAGE_NAME = "fibonacci"
+    VERSION = "1.0"
+    }
+
     stages {
         stage('Build') {
             steps {
+                // Clean Workspace before start
+                cleanWs()
                 // Get code from GitHub repository
                 git(
                     url: 'https://github.com/abelasuvalenteen/fibonacci.git',
@@ -27,7 +38,28 @@ pipeline {
 
         stage('Dockerize') {
             steps {
-                 bat "docker -version"
+                script{
+                     // Clean Workspace before start
+                     cleanWs()
+                     // Check docker version
+                     bat "docker --version"
+                     dir("${WORKSPACE}") {
+                         git(
+                             url: 'https://github.com/abelasuvalenteen/fibonacci.git',
+                             branch: 'main'
+                         )
+                         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                             // docker hub login
+                             bat "docker login -u $USERNAME -p $PASSWORD ${DOCKER_HUB_REPO}"
+                             // docker build and tag image
+                             bat "docker build -t ${DOCKER_HUB_REPO}/${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION} ."
+                             // docker push tagged image
+                             bat "docker push ${DOCKER_HUB_REPO}/${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+                             // docker run
+                             bat "docker run -ti -p8085:8085 ${IMAGE_NAME}:${VERSION}"
+                         }
+                     }
+                }
             }
         }
     }
