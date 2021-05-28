@@ -10,6 +10,7 @@ RUN mvn clean package
 FROM openjdk:8-jre-alpine
 ENV artifact fibonacci-1.0.0-SNAPSHOT.jar
 WORKDIR /app
+COPY --from=build /app/config.yml /app
 COPY --from=build /app/target/${artifact} /app
 EXPOSE 8085
 ENTRYPOINT ["sh", "-c"]
