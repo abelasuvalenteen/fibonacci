@@ -1,0 +1,8 @@
+fibonacci\api\Saying.class
+fibonacci\core\FibonacciGenerator.class
+fibonacci\OracleChallengeApplication.class
+fibonacci\resources\FibonacciSumResource.class
+fibonacci\api\FibonacciSum.class
+fibonacci\resources\HelloWorldResource.class
+fibonacci\health\TemplateHealthCheck.class
+fibonacci\OracleChallengeConfiguration.class
