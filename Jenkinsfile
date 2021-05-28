@@ -27,11 +27,7 @@ pipeline {
 
         stage('Dockerize') {
             steps {
-                try {
-                    bat "docker -version"
-                } catch(Exception e) {
-                    error "Error Message: " + e
-                }
+                 bat "docker -version"
             }
         }
     }
