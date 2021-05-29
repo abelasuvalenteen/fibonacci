@@ -4,12 +4,31 @@ DOCKER_HUB_NAMESPACE = "abelasuvalenteen"
 IMAGE_NAME = "fibonacci"
 VERSION = "1.0"
 
+def callMavenSonarScan() {
+    // Clean Workspace before start
+    cleanWs()
+
+   // Get code from GitHub repository
+   git(
+    url: 'https://github.com/abelasuvalenteen/fibonacci.git',
+    branch: 'main'
+    )
+
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonar-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+        // To run Maven on a Windows agent, use
+        bat "mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$PASSWORD"
+    }
+}
+
+
 def callLocalBuild () {
-    // Get code from GitHub repository
-    git(
-        url: 'https://github.com/abelasuvalenteen/fibonacci.git',
-        branch: 'main'
-        )
+    // Clean Workspace before start
+    cleanWs()
+   // Get code from GitHub repository
+   git(
+    url: 'https://github.com/abelasuvalenteen/fibonacci.git',
+    branch: 'main'
+    )
 
     // To run Maven on a Windows agent, use
     bat "mvn -Dmaven.test.failure.ignore=true clean package"
@@ -18,6 +37,8 @@ def callLocalBuild () {
 }
 
 def callDockerBuild () {
+      // Clean Workspace before start
+      cleanWs()
      // Check docker version
      bat "docker --version"
      dir("${WORKSPACE}") {
@@ -65,11 +86,17 @@ pipeline {
     options { skipDefaultCheckout() }
 
     stages {
+        stage('Code Quality Scan') {
+            steps {
+               script {
+                   echo "Call docker build"
+                   callMavenSonarScan()
+               }
+            }
+        }
         stage('Build') {
             steps {
                script {
-                  // Clean Workspace before start
-                  cleanWs()
                   if("${params.buildType}".equalsIgnoreCase("local")) {
                    echo "Call local Maven Build"
                    callLocalBuild()
