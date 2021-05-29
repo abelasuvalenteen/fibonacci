@@ -46,7 +46,7 @@ def callDockerBuild () {
              // docker list images
              bat "docker images"
              // docker run
-             bat "docker run --name fibonacci -t -d -p 127.0.0.1:8181:8181/tcp ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+             bat "docker run --name fibonacci -t -d -p 8181:8181/tcp ${DOCKER_HUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
          }
      }
 }
