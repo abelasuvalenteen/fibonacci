@@ -16,7 +16,7 @@ def callMavenSonarScan() {
 
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonar-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
         // To run Maven on a Windows agent, use
-        bat "mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$PASSWORD"
+        bat "mvn -Dmaven.test.failure.ignore=true clean install sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$PASSWORD"
     }
 }
 
