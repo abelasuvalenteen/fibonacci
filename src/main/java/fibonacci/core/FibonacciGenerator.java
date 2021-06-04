@@ -44,10 +44,10 @@ public class FibonacciGenerator {
     public void generateSum() {
         int total = 0;
         int n1=0,n2=1,n3,i;
-        if(this.number < 1 || this.number > 100) {
+        if(number < 1 || number > 100) {
             invalidInput = "You have entered an invalid input, allowed input is between 1 to 100";
         } else {
-            for (i = 0; i < this.number; ++i) {
+            for (i = 0; i < number; ++i) {
                 n3 = n1 + n2;
                 sequence.add(n3);
                 total = total + n3;
