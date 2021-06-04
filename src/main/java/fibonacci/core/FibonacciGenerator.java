@@ -19,6 +19,8 @@ public class FibonacciGenerator {
 
     public int total;
 
+    public String invalidInput = "";
+
     public List<Integer> getSequence() {
         return sequence;
     }
@@ -35,18 +37,26 @@ public class FibonacciGenerator {
         this.total = total;
     }
 
+    public void setInvalidInput(String message) {this.invalidInput = invalidInput;}
+
+    public String getInvalidInput() {return invalidInput;}
+
     public void generateSum() {
         int total = 0;
         int n1=0,n2=1,n3,i;
-        for(i=0;i<this.number;++i)
-        {
-            n3=n1+n2;
-            sequence.add(n3);
-            total = total + n3;
-            n1=n2;
-            n2=n3;
+        if(this.number < 1 || this.number > 100) {
+            invalidInput = "You have entered an invalid input, allowed input is between 1 to 100";
+        } else {
+            for (i = 0; i < this.number; ++i) {
+                n3 = n1 + n2;
+                sequence.add(n3);
+                total = total + n3;
+                n1 = n2;
+                n2 = n3;
+            }
+            this.setSequence(sequence);
+            this.setTotal(total);
         }
-        this.setSequence(sequence);
-        this.setTotal(total);
+        this.setInvalidInput(invalidInput);
     }
 }
