@@ -1,5 +1,7 @@
 package fibonacci.core;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,10 @@ public class FibonacciGenerator {
         return number;
     }
 
-    public final int number;
-    public FibonacciGenerator(int number){
-        this.number = number;
+    public int number;
+    public final String numberStr;
+    public FibonacciGenerator(String number){
+        this.numberStr = number;
         generateSum();
     }
 
@@ -42,9 +45,13 @@ public class FibonacciGenerator {
     public String getInvalidInput() {return invalidInput;}
 
     public void generateSum() {
-        int total = 0;
-        int n1=0,n2=1,n3,i;
-           for (i = 0; i < this.number; ++i) {
+        if(!isNumeric(this.numberStr)) {
+            this.setInvalidInput("Invalid Input, Enter only numbers between 1 to 100");
+        } else {
+            number = Integer.parseInt(this.numberStr);
+            int total = 0;
+            int n1=0,n2=1,n3,i;
+            for (i = 0; i < number; ++i) {
                 n3 = n1 + n2;
                 sequence.add(n3);
                 total = total + n3;
@@ -54,4 +61,30 @@ public class FibonacciGenerator {
             this.setSequence(sequence);
             this.setTotal(total);
         }
+    }
+
+
+    public static boolean isNumeric(String string) {
+        int intValue;
+
+        System.out.println(String.format("Parsing string: \"%s\"", string));
+
+        if(string == null || string.equals("")) {
+            System.out.println("String cannot be parsed, it is null or empty.");
+            return false;
+        }
+
+        try {
+            intValue = Integer.parseInt(string);
+
+            if(intValue < 1 || intValue > 100) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Input String cannot be parsed to Integer.");
+        }
+        return false;
+    }
 }

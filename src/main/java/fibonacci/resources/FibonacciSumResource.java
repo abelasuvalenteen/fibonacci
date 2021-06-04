@@ -35,18 +35,22 @@ public class FibonacciSumResource {
         String invalidInput;
         FibonacciGenerator generatorObj;
         if(StringUtils.isEmpty(number)) {
-            generatorObj = new FibonacciGenerator(Integer.parseInt(defaultNumber));
+            generatorObj = new FibonacciGenerator(defaultNumber);
         } else {
-            generatorObj = new FibonacciGenerator(Integer.parseInt(number));
+            generatorObj = new FibonacciGenerator(number);
         }
         memberCount = generatorObj.getNumber();
         fibonacciTotal = generatorObj.getTotal();
         sequence = generatorObj.getSequence();
         invalidInput = generatorObj.getInvalidInput();
-        final String memberCountStr = String.valueOf(memberCount);
-        final String totalStr = String.valueOf(fibonacciTotal);
-        final String sequenceStr = String.valueOf(sequence);
+        if(invalidInput.contains("Invalid Input")) {
+            final String invalidInputStr = invalidInput;
+            return new FibonacciSum(invalidInputStr);
+        } else {
+            final String memberCountStr = String.valueOf(memberCount);
+            final String totalStr = String.valueOf(fibonacciTotal);
+            final String sequenceStr = String.valueOf(sequence);
             return new FibonacciSum(memberCountStr, sequenceStr, totalStr );
-
+        }
     }
 }

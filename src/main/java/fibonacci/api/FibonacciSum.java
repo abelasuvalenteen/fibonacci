@@ -8,6 +8,19 @@ public class FibonacciSum {
     private String total;
     private String invalidInput;
 
+    public FibonacciSum(String invalidInput) {
+        this.invalidInput = invalidInput;
+    }
+
+    @JsonProperty
+    public String getInvalidInput() {
+        if(invalidInput != null ) {
+            return invalidInput;
+        } else {
+            return "false";
+        }
+    }
+
     public FibonacciSum() {
         // Jackson deserialization
     }
@@ -18,21 +31,31 @@ public class FibonacciSum {
         this.total = total;
     }
 
-    public FibonacciSum(String invalidInput) {
-        this.invalidInput = invalidInput;
-    }
-
     @JsonProperty
     public String getMemberCount() {
-        return memberCount;
+        if(memberCount != null ) {
+            return memberCount;
+        } else {
+            return "No Response";
+        }
     }
 
     @JsonProperty
-    public String getSequence() { return sequence; }
+    public String getSequence() {
+        if(sequence != null ) {
+            return sequence;
+        } else {
+            return "No Response";
+        }
+    }
 
     @JsonProperty
-    public String getTotal() { return total; }
+    public String getTotal() {
+        if(total != null ) {
+            return total;
+        } else {
+            return "No Response";
+        }
+    }
 
-    @JsonProperty
-    public String getInvalidInput() { return invalidInput; }
 }
