@@ -46,11 +46,7 @@ public class FibonacciSumResource {
         final String memberCountStr = String.valueOf(memberCount);
         final String totalStr = String.valueOf(fibonacciTotal);
         final String sequenceStr = String.valueOf(sequence);
-        if(invalidInput == ""){
-            return new FibonacciSum(invalidInput);
-        } else {
             return new FibonacciSum(memberCountStr, sequenceStr, totalStr );
-        }
 
     }
 }
